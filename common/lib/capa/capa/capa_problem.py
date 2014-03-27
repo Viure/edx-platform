@@ -620,7 +620,7 @@ class LoncapaProblem(object):
         """
         context = {}
         context['seed'] = self.seed
-        context['anonymous_student_id'] = self.system.anonymous_student_id
+        context['anonymous_student_id'] = self.capa_system.anonymous_student_id
         all_code = ''
 
         python_path = []
