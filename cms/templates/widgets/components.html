@@ -1,0 +1,30 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%! from django.core.urlresolvers import reverse %>
+<%! from xmodule.modulestore.django import loc_mapper %>
+
+<!--
+This def will enumerate through a passed in subsection and list all of the units
+-->
+<%def name="enum_components(unit_components, actions=True, selected=None, sortable=True)">
+  % for component in unit_components:
+
+  <li class="courseware-unit unit is-draggable" data-locator=${component['location']}>
+
+    <%include file="_ui-dnd-indicator-before.html" />
+
+    <label class="section-item">
+
+      <input type="checkbox" class="selectedId" name=${component['location']} value="" onclick="resetSelectAll();" />
+      <span class="component-name">${component['name']}</span>
+
+      <div class="item-actions">
+        <i class="icon-spinner icon-spin icon-large"></i>
+      </div>
+
+    </label>
+
+    <%include file="_ui-dnd-indicator-after.html" />
+  </li>
+  % endfor
+</%def>
+

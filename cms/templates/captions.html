@@ -1,0 +1,176 @@
+<%inherit file="base.html" />
+<%!
+  import logging
+  from xmodule.util.date_utils import get_default_time_display, almost_same_datetime
+  from django.utils.translation import ugettext as _
+  from django.core.urlresolvers import reverse
+%>
+<%block name="title">${_("Update Video Captions")}</%block>
+<%block name="bodyclass">is-signedin course view-captions</%block>
+
+
+<%namespace name="components" file="widgets/components.html" />
+<%namespace name='static' file='static_content.html'/>
+
+<%block name="content">
+<div class="main-wrapper">
+  <div class="inner-wrapper">
+    <div class="main-column">
+      <form id="update-components" action="#" method="post">
+      <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}"/>
+      <ul class="list-actions">
+        <li class="action-item">
+          <a title="Update captions for the selected components" href="#" class="update-button action-primary action">Update</a>
+        </li>
+      </ul>
+
+      <article class="subsection-body window" data-locator="${locator}">
+        <div class="wrapper-dnd">
+          <label class="selectall-label">
+            <input type="checkbox" id="selectall"/>
+            Select all
+          </label>
+            <div class="sortable-unit-list">
+              <ol class="sortable-unit-list">
+                ${components.enum_components(unit_components=videos)}
+              </ol>
+            </div>
+        </div>
+      </article>
+      </form>
+    </div>
+  </div>
+</div>
+</%block>
+
+<%block name="jsextra">
+<link rel="stylesheet" type="text/css" href="${static.url('js/vendor/timepicker/jquery.timepicker.css')}" />
+
+<script type="text/javascript">
+require(["domReady!", "jquery", "js/models/location", "js/views/overview_assignment_grader",
+  "js/collections/course_grader", "js/views/overview"],
+  function(doc, $, Location, OverviewAssignmentGrader, CourseGraderCollection) {
+    // expand the due-date area if the values are set
+    if ($('#due_date').val() != '') {
+      var $block = $('.set-date').closest('.due-date-input');
+      $('.set-date').hide();
+      $block.find('.date-setter').show();
+    }
+    // TODO figure out whether these should be in window or someplace else or whether they're only needed as local vars
+    // I believe that current (New Section/New Subsection) cause full page reloads which means these aren't needed globally
+    // but we really should change that behavior.
+    if (!window.graderTypes) {
+        window.graderTypes = new CourseGraderCollection(${course_graders|n}, {parse:true});
+    }
+
+    $(".gradable-status").each(function(index, ele) {
+      var gradeView = new OverviewAssignmentGrader({
+        el : ele,
+        graders : window.graderTypes,
+        hideSymbol : true
+      });
+    });
+
+    $('#selectall').click(function () {
+      $('.selectedId').prop('checked', isChecked('selectall'));
+    });
+
+
+
+    $('.update-button').on('click',function() {
+      var selected = new Array();
+      $('input:checkbox.selectedId:checked').each(function() {
+         selected.push($(this).attr('name'));
+      });
+
+      // changed the checked icons to spinners
+      $.each(selected, function(idx, elem){
+        $('li.courseware-unit[data-locator="' + elem + '"]').removeClass('green red');
+        v = $('li.courseware-unit[data-locator="' + elem + '"] div.item-actions');
+        v.html('<i class="icon-spinner icon-spin icon-large"></i>');
+      });
+
+      $.ajax({
+        url: '${request.get_full_path()}',
+        type: 'post',
+        dataType: 'json',
+        data: {
+                csrfmiddlewaretoken: '${csrf_token}',
+                action: 'update',
+                update_array: JSON.stringify(selected)
+              },
+        success: function (data) {
+          $.each(data, function(key, val){
+            var icon, from_class, to_class;
+            if (val == true) {
+              icon ='<i class="icon-ok green icon-large"></i>';
+              from_class = 'red';
+              to_class = 'green';
+            } else {
+              icon ='<i class="icon-time red icon-large"></i>';
+              from_class = 'green';
+              to_class = 'red';
+            }
+
+            $('li.courseware-unit[data-locator="' + key + '"]').removeClass(from_class).addClass(to_class);
+            v = $('li.courseware-unit[data-locator="' + key + '"] div.item-actions');
+            v.html(icon);
+          });
+        }
+      });
+    });
+
+    $('li.courseware-unit').each(function(i, el) {
+      var video = {};
+      video.location = $(this).attr('data-locator');
+      $.ajax({
+        url: '${ request.get_full_path()}',
+        type: 'post',
+        dataType: 'json',
+        data: {
+                csrfmiddlewaretoken: '${csrf_token}',
+                action: 'get',
+                video: JSON.stringify(video)
+              },
+        success: function (data) {
+            var icon, from_class, to_class;
+            if (data.status == true) {
+              icon ='<i class="icon-ok green icon-large"></i>';
+              from_class = 'red';
+              to_class = 'green';
+            } else {
+              icon ='<i class="icon-time red icon-large"></i>';
+              from_class = 'green';
+              to_class = 'red';
+            }
+            $('li.courseware-unit[data-locator="' + data.location + '"]').removeClass(from_class).addClass(to_class);
+            v = $('li.courseware-unit[data-locator="' + data.location + '"] div.item-actions');
+            v.html(icon);
+        }
+      });
+    });
+
+});
+
+function isChecked(checkboxId) {
+  var id = '#' + checkboxId;
+  return $(id).is(':checked');
+}
+
+function resetSelectAll() {
+  // if all checkbox are selected, check the selectall checkbox
+  // and viceversa
+  if ($('.selectedId').length == $('.selectedId:checked').length) {
+    $('#selectall').attr('checked', 'checked');
+  } else {
+    $('#selectall').removeAttr('checked');
+  }
+
+  if ($('.selectedId:checked').length > 0) {
+    $('#edit').attr('disabled', false);
+  } else {
+    $('#edit').attr('disabled', true);
+  }
+}
+</script>
+</%block>
