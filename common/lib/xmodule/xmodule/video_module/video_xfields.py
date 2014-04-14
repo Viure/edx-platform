@@ -15,6 +15,7 @@ class VideoFields(object):
         default="Video",
         scope=Scope.settings
     )
+
     saved_video_position = RelativeTime(
         help="Current position in the video",
         scope=Scope.user_state,
@@ -138,4 +139,10 @@ class VideoFields(object):
         help="The availaibility of YouTube API for the user",
         scope=Scope.user_info,
         default=True
+    )
+
+    handout = String(
+        display_name="Handout",
+        scope=Scope.settings,
+        help="Upload handout. After that link beneath the video to download the handout will appear",
     )

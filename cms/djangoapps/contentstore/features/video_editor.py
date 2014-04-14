@@ -143,6 +143,7 @@ def correct_video_settings(_step):
         ['Display Name', 'Video', False],
         ['Download Transcript', '', False],
         ['End Time', '00:00:00', False],
+        ['Handout', '', False],
         ['Start Time', '00:00:00', False],
         ['Transcript (primary)', '', False],
         ['Transcript Display', 'True', False],
