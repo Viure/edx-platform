@@ -72,6 +72,8 @@ from lang_pref import LANGUAGE_KEY
 
 import track.views
 
+import analytics
+
 from dogapi import dog_stats_api
 
 from util.json_request import JsonResponse
@@ -1168,6 +1170,11 @@ def create_account(request, post_override=None):
 
     dog_stats_api.increment("common.student.account_created")
     create_comments_service_user(user)
+
+    analytics.track(user.id, "Created a New Account", {
+        'email': user.email,
+        'username': user.username
+    })
 
     context = {
         'name': post_vars['name'],

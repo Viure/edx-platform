@@ -46,9 +46,9 @@ from instructor.enrollment import (
     unenroll_email
 )
 from instructor.access import list_with_level, allow_access, revoke_access, update_forum_role
-import analytics.basic
-import analytics.distributions
-import analytics.csvs
+import instructor_analytics.basic
+import instructor_analytics.distributions
+import instructor_analytics.csvs
 import csv
 
 # Submissions is a Django app that is currently installed

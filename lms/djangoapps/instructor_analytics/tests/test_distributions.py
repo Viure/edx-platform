@@ -5,7 +5,7 @@ from nose.tools import raises
 from student.models import CourseEnrollment
 from student.tests.factories import UserFactory
 
-from analytics.distributions import profile_distribution, AVAILABLE_PROFILE_FEATURES
+from instructor_analytics.distributions import profile_distribution, AVAILABLE_PROFILE_FEATURES
 
 
 class TestAnalyticsDistributions(TestCase):
