@@ -77,7 +77,7 @@ optionally to provide feedback as a formative assessment.
 #. In edX Studio, upload an HTML file that contains the JavaScript you want to
    show students.
 #. Copy the **Embed URL** of the file. 
-#. `Create a Custom JavaScript Display and Grading Problem <>_`. The template
+#. `Create a Custom JavaScript Display and Grading Problem <http://edx.readthedocs.org/projects/ca/en/latest/problems_tools/advanced_problems.html#custom-javascript-display-and-grading>'_. The template
    for the problem contains the definition for a sample JavaScript application
    that requires and grades student interaction.
 #. Edit the XML of the component to remove grading information and refer to the
@@ -135,7 +135,7 @@ The ``getState()`` function retrieves the state of objects in the application,
 so each student experiences that application in its initial or last saved state.
 
 The name of the ``getState()`` function must be the value of the ``get_statefn``
-attribute of the ``jsinput `` element for the problem.
+attribute of the ``jsinput`` element for the problem.
 
 For example:
 
@@ -159,7 +159,7 @@ The function saves application's state so that the student can later return to
 the application and find it as he or she left it.
 
 The name of the ``setState()`` function must be the value of the ``set_statefn``
-attribute of the ``jsinput `` element for the problem.
+attribute of the ``jsinput`` element for the problem.
 
 For example:
 
@@ -184,7 +184,7 @@ The JSON string returned by ``getGrade()`` is used by the Python code in the
 problem to determine the student's results, as explained below.
 
 The name of the ``getGrade()`` function must be the value of the ``gradefn``
-attribute of the ``jsinput `` element for the problem.
+attribute of the ``jsinput`` element for the problem.
 
 For example:
 
@@ -211,7 +211,9 @@ In the Python code, you must:
 
 * Import ``json``
 
-* Define a function that is executed when the student clicks Check. This function:
+* Define a function that is executed when the student clicks Check. This
+  function:
+
   * Is placed before the ``customresponse`` element that defines the problem.
   * By default is named ``vglcfn``
   * Has two parameters:  ``e`` for the submission event, and ``ans``, which is

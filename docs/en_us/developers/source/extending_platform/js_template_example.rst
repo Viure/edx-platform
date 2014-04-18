@@ -30,10 +30,10 @@ in the ``WebGLDemo.js`` file:
 .. code-block:: javascript
 
     var state = {
-                'selectedObjects': {
-                'cylinder': false,
-                'cube': false
-                }
+        'selectedObjects': {
+            'cylinder': false,
+            'cube': false
+        }
     }
 
 User interactions toggle the ``state`` values of the cylinder and cube between
@@ -72,17 +72,17 @@ the cylinder and cone with the user's current selections:
 
     function updateMaterials() {
         if (state.selectedObjects.cylinder) {
-            cylinder.material =  selectedMaterial;
+            cylinder.material = selectedMaterial;
         }
         else {
-            cylinder.material =  unselectedMaterial;
+            cylinder.material = unselectedMaterial;
         }
 
         if (state.selectedObjects.cube) {
-            cube.material =  selectedMaterial;
+            cube.material = selectedMaterial;
         }
         else {
-            cube.material =  unselectedMaterial;
+            cube.material = unselectedMaterial;
         }
     }
 
