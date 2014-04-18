@@ -69,12 +69,15 @@ When you enroll people in a course you have these options:
 
 * **Notify students by email**. When you choose this option, an email message is
   automatically sent to each of the email addresses that you supply. The message
-  includes the name of the course and a reminder to use that same email address
-  to register. Whether you choose to send a notification or not, enrolled
-  students see your course on their dashboards when they log in.
+  includes the name of the course and, for students who are not already
+  registered, a reminder to use that same email address to register. Whether you
+  choose to send a notification or not, enrolled students see your course on
+  their dashboards when they log in.
 
-  An example of the email message that enrollees receive when you select this
-  option follows.
+  An example of the email message that a student received when this option was
+  selected during enrollment follows. In this example, the student already had a
+  registered and activated edx.org account, and both **Auto Enroll** and
+  **Notify students by email** were selected.
 
   .. image:: ../Images/Course_Enrollment_Email.png
         :alt: Email message inviting a student to enroll in an edx.org course
@@ -159,10 +162,12 @@ To unenroll students, you supply the email addresses of enrolled students.
 #. In the **Batch Enrollment** section of the page, enter an email address or
    multiple addresses separated by commas or line feeds.
 
+#. To send students an email message, leave **Notify students by email**
+   selected.
+
+.. note:: The **Auto Enroll** option has no effect when you click **Unenroll**.
+
 #. Click **Unenroll**. The course is no longer listed on the students'
    dashboards, and the students can no longer contribute to discussions or the
    wiki or access the courseware.
-
-.. note:: The **Auto Enroll** and **Notify students by email** options have
-   no effect when you click Unenroll.
 
