@@ -477,10 +477,7 @@ class CertificateItem(OrderItem):
                                                                                                        user_email=course_enrollment.user.email,
                                                                                                        order_number=order_number)
         to_email = [settings.PAYMENT_SUPPORT_EMAIL]
-        from_email = [microsite.get_value(
-            'payment_support_email',
-            settings.PAYMENT_SUPPORT_EMAIL
-        )]
+        from_email = microsite.get_value('payment_support_email', settings.PAYMENT_SUPPORT_EMAIL)
         try:
             send_mail(subject, message, from_email, to_email, fail_silently=False)
         except (smtplib.SMTPException, BotoServerError):
